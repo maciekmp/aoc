@@ -40,7 +40,15 @@ fs.readFile('input.txt', 'utf8', (err, data) => {
         if (+right[1] <= +left[1] && +right[1] >= +left[0]) {
             return 1;
         }
+        if (+left[0] <= +right[1] && +left[0] >= +right[0]) {
+            return 1;
+        }
+        if (+left[1] <= +right[1] && +left[1] >= +right[0]) {
+            return 1;
+        }
+        // return [left, right]
         return 0;
     })
+    // console.log(values2);
     console.log(2, sum(values2));
 });
