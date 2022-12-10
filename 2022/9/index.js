@@ -16,36 +16,46 @@ fs.readFile('input.txt', 'utf8', (err, data) => {
         console.error(err);
         return;
     }
-    let H = [0, 0];
-    let T = [0, 0];
-    const visited = {};
+    let ROPE = new Array(10).fill().map(() => [0, 0]);
+    const visited1 = {};
+    const visited10 = {};
     data.split('\n').forEach((line) => {
         if (line.length === 0) {
             return;
         }
-        console.log(line);
+        // console.log(line);
         const [direction, steps] = line.split(' ');
         for (let i = 0; i < steps; i++) {
-            H = move(H, direction);
-            // tail adjustment
-            if (Math.abs(H[0] - T[0]) > 1) {
-                if (H[1] !== T[1]) {
-                    T[1] = H[1];
+            const oldRope = [...ROPE];
+            ROPE.forEach((knot, index) => {
+                if (index === 0) {
+                    ROPE[0] = move(knot, direction);
+                    return;
                 }
-                T = move(T, direction);
-            }
-            if (Math.abs(H[1] - T[1]) > 1) {
-                if (H[0] !== T[0]) {
-                    T[0] = H[0];
+                const oldPrevious = oldRope[index - 1];
+                const previous = ROPE[index - 1];
+                // tail adjustment
+                ROPE[index] = [...ROPE[index]]
+                if (Math.abs(previous[0] - knot[0]) > 1) {
+                    ROPE[index][0] += previous[0] - oldPrevious[0];
+                    const deltaY = previous[1] - knot[1];
+                    if (deltaY) {
+                        ROPE[index][1] += deltaY / Math.abs(deltaY);
+                    }
+                }else
+                if (Math.abs(previous[1] - knot[1]) > 1) {
+                    ROPE[index][1] += previous[1] - oldPrevious[1];
+                    const deltaX = previous[0] - knot[0];
+                    if (deltaX) {
+                        ROPE[index][0] += deltaX / Math.abs(deltaX);
+                    }
                 }
-                T = move(T, direction);
-            }
-            visited[`${T[0]},${T[1]}`] = true;
-            console.log({
-                H,
-                T,
             })
+            // console.log(ROPE);
+            visited1[`${ROPE[1][0]},${ROPE[1][1]}`] = true;
+            visited10[`${ROPE[9][0]},${ROPE[9][1]}`] = true;
         }
     })
-    console.log(1, Object.keys(visited).length);
+    console.log(1, Object.keys(visited1).length);
+    console.log(2, Object.keys(visited10).length);
 });
