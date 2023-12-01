@@ -1,0 +1,1 @@
+module.exports.sum = arr => arr.reduce((prev, cur) => prev + cur);
