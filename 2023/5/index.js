@@ -49,7 +49,7 @@ fs.readFile('input', 'utf8', (err, data) => {
             let seed = i;
             maps.forEach(map => {
                 const range = map.find(range => {
-                    if (seed >= range[1] && seed <= range[1] + range[2]) {
+                    if (seed >= range[1] && seed < range[1] + range[2]) {
                         return true;
                     }
                     return false;
