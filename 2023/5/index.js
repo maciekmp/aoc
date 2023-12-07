@@ -1,7 +1,4 @@
 const fs = require('fs');
-const { num: {
-    BigNumArray
-} } = require("bigarray")
 const { sum, multiply } = require('../helpers');
 
 fs.readFile('input', 'utf8', (err, data) => {
